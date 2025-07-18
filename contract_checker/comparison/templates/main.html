@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Contract Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-600">Smart Contract AI</h1>
+      <div class="space-x-6">
+        <a href="{% url 'compare' %}" class="hover:text-indigo-600 font-medium">Compare</a>
+        <a href="{% url 'smart_analyze' %}" class="hover:text-indigo-600 font-medium">Smart Analyze</a>
+        <a href="{% url 'history' %}" class="hover:text-indigo-600 font-medium">History</a>
+        {% if user.is_authenticated %}
+  Welcome, {{ user.email }} |
+  <a href="{% url 'account_logout' %}" class="text-red-600">Logout</a>
+{% else %}
+  <a href="{% url 'account_login' %}" class="text-blue-600">Login</a> |
+  <a href="{% url 'account_signup' %}" class="text-green-600">Sign Up</a>
+{% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="text-center py-24 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 id="hero-title" class="text-4xl sm:text-5xl font-bold mb-6">AI-Powered Smart Contract Analysis</h2>
+      <p id="hero-subtext" class="text-lg sm:text-xl mb-8">Compare, Analyze, and Audit Contracts with the help of LLMs like Ollama</p>
+      <div class="space-x-4">
+        <a href="{% url 'compare' %}" class="bg-white text-indigo-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">Compare Contracts</a>
+        <a href="{% url 'smart_analyze' %}" class="bg-indigo-800 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-900">Smart Analyze</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-center">
+      <div class="p-6 shadow-md rounded-lg">
+        <h3 class="text-xl font-bold text-indigo-600 mb-2"><a href="{% url 'compare' %}">LLM-Powered Diff</a></h3>
+        <p class="text-gray-600">Highlight and summarize exact clause-level differences using advanced LLM models.</p>
+      </div>
+      <div class="p-6 shadow-md rounded-lg">
+        <h3 class="text-xl font-bold text-indigo-600 mb-2"><a href="{% url 'smart_analyze' %}">Clause Red Flag Detection</a></h3>
+        <p class="text-gray-600">Automatically flag risky or abnormal clauses using smart logic and AI scoring.</p>
+      </div>
+      <div class="p-6 shadow-md rounded-lg">
+        <h3 class="text-xl font-bold text-indigo-600 mb-2"><a href="{% url 'history' %}">History & Report PDF</a></h3>
+        <p class="text-gray-600">View and export comparison history with downloadable reports in PDF format.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Simple GSAP animation
+    gsap.from("#hero-title", { y: -50, opacity: 0, duration: 1 });
+    gsap.from("#hero-subtext", { y: 30, opacity: 0, delay: 0.5, duration: 1 });
+  </script>
+</body>
+</html>

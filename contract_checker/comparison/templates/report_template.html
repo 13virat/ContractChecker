@@ -2,39 +2,50 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Contract Comparison Report</title>
     <style>
         body {
             font-family: Helvetica, sans-serif;
             font-size: 13px;
             background-color: #f9f9f9;
             color: #333;
+            margin: 40px;
         }
 
-        h2, h3 {
-            color: #222;
+        h2 {
+            font-size: 24px;
+            color: #1e3a8a;
+            margin-bottom: 10px;
         }
 
-        .box {
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        h3 {
+            font-size: 18px;
+            color: #111827;
+            margin-bottom: 8px;
+            border-left: 4px solid #3b82f6;
+            padding-left: 8px;
+        }
+
+        .section {
+            background-color: #ffffff;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
 
         .highlight {
             font-weight: bold;
-            color: #2e7d32;
+            color: #16a34a;
             font-size: 16px;
         }
 
         .diff-table {
-            font-size: 13px;
+            font-size: 12px;
             overflow-x: auto;
         }
 
-        /* ======== difflib.HtmlDiff specific styles ======== */
         table.diff {
             width: 100%;
             border-collapse: collapse;
@@ -44,50 +55,51 @@
         .diff th,
         .diff td {
             padding: 6px;
-            border: 1px solid #ccc;
+            border: 1px solid #d1d5db;
             word-wrap: break-word;
-            font-size: 12px;
         }
 
         .diff_header {
-            background-color: #f7f7f7;
+            background-color: #f3f4f6;
             font-weight: bold;
         }
 
         .diff_next {
-            background-color: #ddd;
+            background-color: #e5e7eb;
         }
 
         .diff_add {
-            background-color: #d4fcdc;  /* green for added */
+            background-color: #dcfce7;  /* light green */
         }
 
         .diff_sub {
-            background-color: #f8d7da;  /* red for removed */
+            background-color: #fee2e2;  /* light red */
         }
 
         .diff_chg {
-            background-color: #fff9c4;  /* yellow for changed */
+            background-color: #fef9c3;  /* light yellow */
         }
     </style>
 </head>
 <body>
+
     <h2>📄 Contract Comparison Report</h2>
     <p><strong>Date:</strong> {{ compare.created_at|date:"Y-m-d H:i" }}</p>
 
-    <div class="box">
+    <div class="section">
         <h3>🔍 LLM Summary</h3>
         <p>{{ compare.llm_response }}</p>
     </div>
 
-    <div class="box">
+    <div class="section">
         <h3>📊 Similarity Score</h3>
         <p class="highlight">{{ similarity_score }}%</p>
     </div>
 
-    <div class="box diff-table">
-        <h3>🟥🟩 Red/Green/Yellow Diff</h3>
+    <div class="section diff-table">
+        <h3>🟥🟩 Red/Green/Yellow Diff Table</h3>
         {{ html_diff|safe }}
     </div>
+
 </body>
 </html>

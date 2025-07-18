@@ -3,72 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <title>Contract Compare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 150px; }
-    .diff { background: #f7f7f7; padding: 10px; border-radius: 5px; margin-top: 20px; }
-    
-  table.diff {
-    width: 100%;
-    font-family: monospace;
-    border-collapse: collapse;
-  }
-  .diff_header {
-    background-color: #eee;
-    font-weight: bold;
-  }
-  .diff_next {
-    background-color: #f2f2f2;
-  }
-  .diff_add {
-    background-color: #d4fcdc; /* green */
-  }
-  .diff_chg {
-    background-color: #ffe4b3; /* yellow */
-  }
-  .diff_sub {
-    background-color: #ffd6d6; /* red */
-  }
+    table.diff {
+      width: 100%;
+      font-family: monospace;
+      border-collapse: collapse;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+    }
 
+    .diff_header {
+      background-color: #f3f4f6;
+      font-weight: bold;
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
 
+    .diff_next {
+      background-color: #e5e7eb;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .diff_add {
+      background-color: #d1fae5; /* green */
+    }
+
+    .diff_chg {
+      background-color: #fef9c3; /* yellow */
+    }
+
+    .diff_sub {
+      background-color: #fecaca; /* red */
+    }
+
+    td {
+      padding: 6px 8px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap;
+      vertical-align: top;
+    }
   </style>
 </head>
-<body>
-  <h1>📄 Contract Compare Tool</h1>
+<body class="bg-gray-100 min-h-screen p-6 text-gray-800">
+  <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8 space-y-8">
 
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    <h3>📝 Enter or Upload Previous Version:</h3>
-    <textarea name="prev_text" placeholder="Old contract...">{{ prev_text }}</textarea><br>
-    or upload: <input type="file" name="prev_file"><br><br>
+    <h1 class="text-3xl font-bold text-blue-700 flex items-center gap-2">
+      📄 Contract Compare Tool
+    </h1>
 
-    <h3>📝 Enter or Upload Current Version:</h3>
-    <textarea name="curr_text" placeholder="New contract...">{{ curr_text }}</textarea><br>
-    or upload: <input type="file" name="curr_file"><br><br>
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
 
-    <button type="submit">Compare Now</button>
-  </form>
+      <div>
+        <h3 class="text-xl font-semibold mb-2">📝 Previous Version</h3>
+        <textarea name="prev_text" placeholder="Old contract..." class="w-full p-4 border border-gray-300 rounded-lg resize-y h-40">{{ prev_text }}</textarea>
+        <div class="mt-2">
+          <label class="block text-sm font-medium">Or upload:</label>
+          <input type="file" name="prev_file" class="mt-1">
+        </div>
+      </div>
 
-  {% if result %}
-  <div class="diff">
-    <h3>🔍 LLM Summary of Changes:</h3>
-    <p>{{ result }}</p>
+      <div>
+        <h3 class="text-xl font-semibold mb-2">📝 Current Version</h3>
+        <textarea name="curr_text" placeholder="New contract..." class="w-full p-4 border border-gray-300 rounded-lg resize-y h-40">{{ curr_text }}</textarea>
+        <div class="mt-2">
+          <label class="block text-sm font-medium">Or upload:</label>
+          <input type="file" name="curr_file" class="mt-1">
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+          🚀 Compare Now
+        </button>
+      </div>
+    </form>
+
+    {% if result %}
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md">
+      <h3 class="text-lg font-semibold mb-2">🔍 LLM Summary of Changes:</h3>
+      <p class="text-sm whitespace-pre-wrap">{{ result }}</p>
+    </div>
+    {% endif %}
+
+    {% if html_diff %}
+    <div class="overflow-x-auto">
+      <h3 class="text-lg font-semibold mb-2">🟥🟩 Detailed Red/Green Changes:</h3>
+      <div class="text-sm">
+        {{ html_diff|safe }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if similarity_score %}
+    <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-md">
+      <h3 class="text-lg font-semibold">📊 Similarity Score:</h3>
+      <p class="text-sm mt-1"><strong>{{ similarity_score }}%</strong> content match between the two versions.</p>
+    </div>
+    {% endif %}
+
   </div>
-{% endif %}
-
-{% if html_diff %}
-  <div class="diff-table">
-    <h3>🟥🟩 Detailed Red/Green Changes:</h3>
-    {{ html_diff|safe }}
-  </div>
-{% endif %}
-{% if similarity_score %}
-  <div class="similarity">
-    <h3>📊 Similarity Score:</h3>
-    <p><strong>{{ similarity_score }}%</strong> content match between the two versions.</p>
-  </div>
-{% endif %}
-
 </body>
 </html>

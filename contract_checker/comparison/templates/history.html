@@ -1,15 +1,38 @@
-<!-- templates/history.html -->
-<h2>📜 Past Comparisons</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Comparison History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 text-gray-800">
 
-{% if comparisons %}
-  <ul>
-    {% for compare in comparisons %}
-      <li>
-        🕒 {{ compare.created_at|date:"Y-m-d H:i" }} |
-        <a href="{% url 'comparison_detail' compare.id %}">View</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No past comparisons found.</p>
-{% endif %}
+  <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-xl p-8 space-y-6">
+
+    <h2 class="text-2xl font-bold text-blue-700 flex items-center gap-2">📜 Past Comparisons</h2>
+
+    {% if comparisons %}
+      <ul class="space-y-4">
+        {% for compare in comparisons %}
+          <li class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:shadow-md transition">
+            <div>
+              <p class="text-sm text-gray-600">🕒 {{ compare.created_at|date:"Y-m-d H:i" }}</p>
+            </div>
+            <a href="{% url 'comparison_detail' compare.id %}" class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition">
+              🔍 View
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-gray-600 italic">No past comparisons found.</p>
+    {% endif %}
+
+    <div class="pt-6">
+      <a href="{% url 'compare' %}" class="text-blue-600 hover:underline">⬅️ Back to Compare Tool</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
