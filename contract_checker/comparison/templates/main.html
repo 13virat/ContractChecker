@@ -8,24 +8,32 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-indigo-600">Smart Contract AI</h1>
-      <div class="space-x-6">
-        <a href="{% url 'compare' %}" class="hover:text-indigo-600 font-medium">Compare</a>
-        <a href="{% url 'smart_analyze' %}" class="hover:text-indigo-600 font-medium">Smart Analyze</a>
-        <a href="{% url 'history' %}" class="hover:text-indigo-600 font-medium">History</a>
-        {% if user.is_authenticated %}
-  Welcome, {{ user.email }} |
-  <a href="{% url 'account_logout' %}" class="text-red-600">Logout</a>
-{% else %}
-  <a href="{% url 'account_login' %}" class="text-blue-600">Login</a> |
-  <a href="{% url 'account_signup' %}" class="text-green-600">Sign Up</a>
-{% endif %}
-      </div>
+ <!-- Navbar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    
+    <!-- Logo -->
+    <a href="/" class="text-2xl font-bold text-indigo-600">Smart Contract AI</a>
+    
+    <!-- Nav Links -->
+    <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+      <a href="{% url 'compare' %}" class="text-gray-700 hover:text-indigo-600 transition">Compare</a>
+      <a href="{% url 'smart_analyze' %}" class="text-gray-700 hover:text-indigo-600 transition">Smart Analyze</a>
+      <a href="{% url 'history' %}" class="text-gray-700 hover:text-indigo-600 transition">History</a>
+
+      {% if user.is_authenticated %}
+        <span class="text-gray-600">{{ user.username }}</span>
+        <a href="{% url 'account_logout' %}" class="text-red-500 hover:text-red-700 transition">Logout</a>
+      {% else %}
+        <a href="{% url 'account_login' %}" class="text-blue-600 hover:text-blue-800 transition">Login</a>
+        <a href="{% url 'account_signup' %}" class="text-green-600 hover:text-green-800 transition">Sign Up</a>
+      {% endif %}
     </div>
-  </nav>
+
+    <!-- Mobile Menu (optional for Phase 6 if needed) -->
+  </div>
+</nav>
+
 
   <!-- Hero Section -->
   <section class="text-center py-24 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
