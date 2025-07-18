@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contract Compare</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 150px; }
+    .diff { background: #f7f7f7; padding: 10px; border-radius: 5px; margin-top: 20px; }
+    
+  table.diff {
+    width: 100%;
+    font-family: monospace;
+    border-collapse: collapse;
+  }
+  .diff_header {
+    background-color: #eee;
+    font-weight: bold;
+  }
+  .diff_next {
+    background-color: #f2f2f2;
+  }
+  .diff_add {
+    background-color: #d4fcdc; /* green */
+  }
+  .diff_chg {
+    background-color: #ffe4b3; /* yellow */
+  }
+  .diff_sub {
+    background-color: #ffd6d6; /* red */
+  }
+
+
+  </style>
+</head>
+<body>
+  <h1>📄 Contract Compare Tool</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <h3>📝 Enter or Upload Previous Version:</h3>
+    <textarea name="prev_text" placeholder="Old contract...">{{ prev_text }}</textarea><br>
+    or upload: <input type="file" name="prev_file"><br><br>
+
+    <h3>📝 Enter or Upload Current Version:</h3>
+    <textarea name="curr_text" placeholder="New contract...">{{ curr_text }}</textarea><br>
+    or upload: <input type="file" name="curr_file"><br><br>
+
+    <button type="submit">Compare Now</button>
+  </form>
+
+  {% if result %}
+  <div class="diff">
+    <h3>🔍 LLM Summary of Changes:</h3>
+    <p>{{ result }}</p>
+  </div>
+{% endif %}
+
+{% if html_diff %}
+  <div class="diff-table">
+    <h3>🟥🟩 Detailed Red/Green Changes:</h3>
+    {{ html_diff|safe }}
+  </div>
+{% endif %}
+{% if similarity_score %}
+  <div class="similarity">
+    <h3>📊 Similarity Score:</h3>
+    <p><strong>{{ similarity_score }}%</strong> content match between the two versions.</p>
+  </div>
+{% endif %}
+
+</body>
+</html>

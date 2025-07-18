@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 13px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h2, h3 {
+            color: #222;
+        }
+
+        .box {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 16px;
+        }
+
+        .diff-table {
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        /* ======== difflib.HtmlDiff specific styles ======== */
+        table.diff {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .diff th,
+        .diff td {
+            padding: 6px;
+            border: 1px solid #ccc;
+            word-wrap: break-word;
+            font-size: 12px;
+        }
+
+        .diff_header {
+            background-color: #f7f7f7;
+            font-weight: bold;
+        }
+
+        .diff_next {
+            background-color: #ddd;
+        }
+
+        .diff_add {
+            background-color: #d4fcdc;  /* green for added */
+        }
+
+        .diff_sub {
+            background-color: #f8d7da;  /* red for removed */
+        }
+
+        .diff_chg {
+            background-color: #fff9c4;  /* yellow for changed */
+        }
+    </style>
+</head>
+<body>
+    <h2>📄 Contract Comparison Report</h2>
+    <p><strong>Date:</strong> {{ compare.created_at|date:"Y-m-d H:i" }}</p>
+
+    <div class="box">
+        <h3>🔍 LLM Summary</h3>
+        <p>{{ compare.llm_response }}</p>
+    </div>
+
+    <div class="box">
+        <h3>📊 Similarity Score</h3>
+        <p class="highlight">{{ similarity_score }}%</p>
+    </div>
+
+    <div class="box diff-table">
+        <h3>🟥🟩 Red/Green/Yellow Diff</h3>
+        {{ html_diff|safe }}
+    </div>
+</body>
+</html>

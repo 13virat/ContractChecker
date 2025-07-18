@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Comparison Detail</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+    }
+
+    h2, h3 {
+      color: #333;
+    }
+
+    .summary-box {
+      background: #f0f9ff;
+      border-left: 6px solid #0077cc;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 6px;
+    }
+
+    .similarity-score {
+      background: #e0ffe0;
+      border-left: 6px solid #28a745;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    table.diff {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 14px;
+    }
+
+    table.diff td, table.diff th {
+      padding: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .diff_add {
+      background-color: #e6ffe6 !important;
+    }
+
+    .diff_chg {
+      background-color: #fff9c4 !important;
+    }
+
+    .diff_sub {
+      background-color: #ffe6e6 !important;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0077cc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📄 Comparison Detail</h2>
+  <p><strong>Date:</strong> {{ compare.created_at|date:"Y-m-d H:i" }}</p>
+
+  <div class="summary-box">
+    <h3>🔍 LLM Summary</h3>
+    <p>{{ compare.llm_response }}</p>
+  </div>
+
+  <div class="similarity-score">
+    📊 Similarity Score: {{ similarity_score }}%
+  </div>
+
+  <h3>🟥🟩 Red/Green/Yellow Changes</h3>
+  <div>
+    {{ html_diff|safe }}
+  </div>
+
+  <br>
+  <a href="{% url 'download_report' compare.id %}" target="_blank">⬇️ Download Report as PDF</a>
+<br>
+  <a href="{% url 'history' %}">🔙 Back to History</a>
+
+</body>
+</html>

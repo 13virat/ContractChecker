@@ -1,0 +1,15 @@
+<!-- templates/history.html -->
+<h2>📜 Past Comparisons</h2>
+
+{% if comparisons %}
+  <ul>
+    {% for compare in comparisons %}
+      <li>
+        🕒 {{ compare.created_at|date:"Y-m-d H:i" }} |
+        <a href="{% url 'comparison_detail' compare.id %}">View</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No past comparisons found.</p>
+{% endif %}
