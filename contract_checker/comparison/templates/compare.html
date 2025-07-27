@@ -84,7 +84,12 @@
     {% if result %}
     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md">
       <h3 class="text-lg font-semibold mb-2">🔍 LLM Summary of Changes:</h3>
-      <p class="text-sm whitespace-pre-wrap">{{ result }}</p>
+      {% for item in result %}
+    
+      <h4 class="font-bold text-yellow-700 mb-2">{{ item.clause }}</h4>
+      <p class="text-sm whitespace-pre-line">{{ item.response }}</p>
+   
+  {% endfor %}
     </div>
     {% endif %}
 

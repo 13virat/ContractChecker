@@ -13,6 +13,7 @@ import hashlib
 from django.core.cache import cache
 from utils.clause_split import extract_clauses  # ⬅️ Add this util to split by clauses
 
+
 def compare_view(request):
     context = {}
     if request.method == 'POST':
@@ -21,6 +22,8 @@ def compare_view(request):
 
         if 'prev_file' in request.FILES:
             prev_text = extract_file(request.FILES['prev_file'])
+
+
         if 'curr_file' in request.FILES:
             curr_text = extract_file(request.FILES['curr_file'])
 
@@ -38,10 +41,11 @@ def compare_view(request):
                         res = cached
                     else:
                         res = call_ollama(old_clause, new_clause)
-                        cache.set(key, res, timeout=3600)
+                        cache.set(key, res, timeout=36000)
                     result.append({'clause': title, 'response': res})
 
             differ = difflib.HtmlDiff(wrapcolumn=80)
+
             html_diff = differ.make_table(
                 prev_text.splitlines(),
                 curr_text.splitlines(),
@@ -51,13 +55,16 @@ def compare_view(request):
                 numlines=2
             )
 
+            # Calculate similarity score
             similarity_score = calculate_similarity(prev_text, curr_text)
+
+            # Save to DB (optional)
             Comparison.objects.create(
                 previous_text=prev_text,
                 current_text=curr_text,
                 llm_response=str(result)
             )
-
+            
             context = {
                 'prev_text': prev_text,
                 'curr_text': curr_text,
@@ -69,6 +76,7 @@ def compare_view(request):
     return render(request, 'compare.html', context)
 
 
+# Extract text from uploaded file
 def extract_file(file):
     ext = file.name.lower()
     if ext.endswith('.txt'):
@@ -80,7 +88,7 @@ def extract_file(file):
     else:
         return ""
 
-
+# Calculate similarity percentage
 def calculate_similarity(a, b):
     return round(SequenceMatcher(None, a, b).ratio() * 100, 2)
 
@@ -93,8 +101,8 @@ def history_view(request):
 def comparison_detail_view(request, pk):
     compare = Comparison.objects.get(pk=pk)
 
-    # ✅ Fix added here as well
-    differ = difflib.HtmlDiff(wrapcolumn=80)
+    differ = difflib.HtmlDiff()
+
     html_diff = differ.make_table(
         compare.previous_text.splitlines(),
         compare.current_text.splitlines(),
@@ -116,7 +124,7 @@ def comparison_detail_view(request, pk):
 def download_report(request, pk):
     compare = Comparison.objects.get(pk=pk)
 
-    # ✅ wrapcolumn added here too
+
     differ = difflib.HtmlDiff(wrapcolumn=80)
     html_diff = differ.make_table(
         compare.previous_text.splitlines(),
@@ -138,6 +146,8 @@ def download_report(request, pk):
     pdf_file = HTML(string=html_string).write_pdf()
     return HttpResponse(pdf_file, content_type='application/pdf')
 
+def home_view(request):
+    return render(request, 'main.html')
 
 def smart_contract_analyzer_view(request):
     context = {}
@@ -164,5 +174,3 @@ def smart_contract_analyzer_view(request):
             }
 
     return render(request, 'smart_analyze.html', context)
-def home_view(request):
-    return render(request, 'main.html')
