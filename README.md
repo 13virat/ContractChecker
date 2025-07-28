@@ -115,5 +115,25 @@ MIT License
 Made with ❤️ by [Virat Gupta]
 
 ---
-![App Screenshot](assets/1.png)
-![App Screenshot](assets/2.png)
+<h3>📸 App Screenshots</h3>
+
+<table>
+  <tr>
+    <td><img src="assets/1.png" width="300"/></td>
+    <td><img src="assets/2.png" width="300"/></td>
+    <td><img src="assets/3.png" width="300"/></td>
+    <td><img src="assets/4.png" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="assets/5.png" width="300"/></td>
+    <td><img src="assets/6.png" width="300"/></td>
+    <td><img src="assets/7.png" width="300"/></td>
+    <td><img src="assets/8.png" width="300"/></td>
+  </tr>
+</table>
+
+<br/>
+
+<h3>🎥 Watch Demo Video</h3>
+
+[![Watch the Demo](assets/1.png)](https://youtu.be/qBRRR2QrSJ0?si=OWydPn1tu8TNqCeo)
