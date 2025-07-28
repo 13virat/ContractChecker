@@ -136,4 +136,4 @@ Made with ❤️ by [Virat Gupta]
 
 <h3>🎥 Watch Demo Video</h3>
 
-[![Watch the Demo](assets/1.png)](https://youtu.be/qBRRR2QrSJ0?si=OWydPn1tu8TNqCeo)
+[![Watch the Demo](assets/1.png)](https://youtu.be/KEPylB7M9KM)
