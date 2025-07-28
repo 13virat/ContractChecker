@@ -115,3 +115,5 @@ MIT License
 Made with ❤️ by [Virat Gupta]
 
 ---
+![App Screenshot](assets/1.png)
+![App Screenshot](assets/2.png)
